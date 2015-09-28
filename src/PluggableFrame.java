@@ -3,6 +3,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
@@ -42,7 +44,7 @@ public class PluggableFrame extends javax.swing.JFrame {
 		p2.setPreferredSize(buttonPanelSize);
 		p2.setBackground(Color.black);
 
-		// loadPlugins();
+//		 loadPlugins();
 
 		this.plugins.add(new JurassicTSwiftPanelPlugin());
 		this.plugins.add(new BubblePanelPlugin());
