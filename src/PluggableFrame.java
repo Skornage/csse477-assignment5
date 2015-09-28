@@ -26,8 +26,6 @@ public class PluggableFrame extends javax.swing.JFrame {
 
 	public PluggableFrame() {
 
-		loadPlugins();
-
 		Dimension size = new Dimension(1400, 1000);
 		Dimension buttonPanelSize = new Dimension(250, 1);
 
@@ -82,6 +80,8 @@ public class PluggableFrame extends javax.swing.JFrame {
 		p1.add(p2, BorderLayout.WEST);
 		p1.add(this.centralPanel, BorderLayout.CENTER);
 		this.add(p1);
+
+		loadPlugins();
 	}
 
 	private void loadPlugins() {
