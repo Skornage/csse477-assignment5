@@ -11,9 +11,7 @@ import javax.swing.JPanel;
 public class JurassicTSwiftPanelPlugin implements IPanelPlugin {
 
 	private JPanel p;
-	private String IMAGEHTML = "<!DOCTYPE html><html><body><div><img src=\"http://celebmafia.com/wp-content/uploads/2014/11/taylor-swift-photoshoot-for-time-magazine-november-2014_3.jpg\"/></div><div><img src=\"http://celebmafia.com/wp-content/uploads/2014/11/taylor-swift-photoshoot-for-time-magazine-november-2014_3.jpg\"/></div></body></html>";
-	// private String SIMPLEHTML =
-	// "<!DOCTYPE html><html><body><div><p>Hello World!</p></div><div><p>Hello World 2</p></div></body></html>";
+	private String IMAGEHTML = "<!DOCTYPE html><html><body><div style='float:left; clear:both;'><img src=\"http://celebmafia.com/wp-content/uploads/2014/11/taylor-swift-photoshoot-for-time-magazine-november-2014_3.jpg\" height=\"445\" width=\"397\"/><img src=\"http://www.sportsalcohol.com/wp-content/uploads/2015/06/Jurassic.jpg\" height=\"445\" width=\"792\"/></div></body></html>";
 	private JEditorPane editText;
 
 	public JurassicTSwiftPanelPlugin() {
@@ -27,6 +25,7 @@ public class JurassicTSwiftPanelPlugin implements IPanelPlugin {
 
 		JPanel messagePanel = new JPanel();
 		editText = new JEditorPane();
+		editText.setSize(new Dimension(150, 50));
 		JButton messageButton = new JButton("Send Message");
 		messageButton.addActionListener(new ActionListener() {
 
@@ -46,7 +45,11 @@ public class JurassicTSwiftPanelPlugin implements IPanelPlugin {
 	}
 
 	protected void sendText() {
-		System.out.println(editText.getText());
+		String messgeToSend = editText.getText().trim();
+		if (!messgeToSend.equals("")) {
+			System.out.println(messgeToSend);
+			editText.setText("");
+		}
 	}
 
 	@Override
