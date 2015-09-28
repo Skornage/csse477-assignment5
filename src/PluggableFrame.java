@@ -1,14 +1,10 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-<<<<<<< HEAD
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
 import java.net.URL;
-=======
-import java.io.File;
->>>>>>> origin/master
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
@@ -46,19 +42,8 @@ public class PluggableFrame extends javax.swing.JFrame {
 		JPanel p2 = new JPanel();
 		p2.setPreferredSize(buttonPanelSize);
 		p2.setBackground(Color.black);
-
-<<<<<<< HEAD
-//		 loadPlugins();
-
-		this.plugins.add(new JurassicTSwiftPanelPlugin());
-		this.plugins.add(new BubblePanelPlugin());
-
-		DefaultListModel<String> lm = new DefaultListModel<String>();
-		for (IPanelPlugin plugin : this.plugins) {
-			lm.addElement(plugin.getName());
-		}
-
-		JList<String> namesList = new JList<String>(lm);
+		
+		JList<String> namesList = new JList<String>(listModel);
 		namesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		namesList.setLayoutOrientation(JList.VERTICAL);
 		namesList.setVisibleRowCount(-1);
