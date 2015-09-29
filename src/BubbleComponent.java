@@ -72,7 +72,7 @@ public class BubbleComponent extends JComponent {
 		Graphics2D g2 = (Graphics2D) g;
 		Rectangle r = this.getBounds();
 
-		g2.setColor(Color.CYAN);
+		g2.setColor(new Color(81, 0, 142));
 		g2.fillRect(r.x, r.y, r.width, r.height);
 
 		for (Bubble b : this.bubbles) {
@@ -92,15 +92,9 @@ public class BubbleComponent extends JComponent {
 
 	protected void pause() {
 		this.workThread.suspend();
-		// try {
-		// workThread.wait();
-		// } catch (InterruptedException e) {
-		// e.printStackTrace();
-		// }
 	}
 
 	protected void resume() {
 		this.workThread.resume();
-		// workThread.notify();
 	}
 }

@@ -82,8 +82,8 @@ public class PluggableFrame extends javax.swing.JFrame {
 		this.add(p1);
 
 		loadPlugins();
-		// addPlugin(new BubblePanelPlugin());
-		// addPlugin(new JurassicTSwiftPanelPlugin());
+		addPlugin(new BubblePanelPlugin());
+		addPlugin(new JurassicTSwiftPanelPlugin());
 	}
 
 	private void addPlugin(IPanelPlugin plugin) {

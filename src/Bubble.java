@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
+import java.util.Random;
 
 public class Bubble {
 	private Color color;
@@ -7,9 +8,26 @@ public class Bubble {
 	private Ellipse2D.Double circle;
 
 	public Bubble(int x, int y) {
-		this.color = Color.BLACK;
-		this.vector = new int[] { 5, 3 };
-		this.circle = new Ellipse2D.Double(x, y, 30, 30);
+
+		Random generator = new Random();
+		int radiusSelector = generator.nextInt(5);
+		int radius = 45 + 7 * radiusSelector;
+
+		int dx = generator.nextInt(5) + 1;
+		int dy = generator.nextInt(5) + 1;
+
+		if (generator.nextBoolean()) {
+			dx *= -1;
+		}
+		if (generator.nextBoolean()) {
+			dy *= -1;
+		}
+		int dg = generator.nextInt(106);
+		int db = generator.nextInt(106);
+		this.color = new Color(0, 150 + dg, 150 + db);
+
+		this.vector = new int[] { dx, dy };
+		this.circle = new Ellipse2D.Double(x, y, radius, radius);
 
 	}
 
