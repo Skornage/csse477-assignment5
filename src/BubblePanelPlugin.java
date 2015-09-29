@@ -1,6 +1,11 @@
 import javax.swing.JComponent;
 
 public class BubblePanelPlugin implements IPanelPlugin {
+	private BubbleComponent comp;
+
+	public BubblePanelPlugin() {
+		this.comp = new BubbleComponent();
+	}
 
 	@Override
 	public String getName() {
@@ -9,49 +14,43 @@ public class BubblePanelPlugin implements IPanelPlugin {
 
 	@Override
 	public JComponent getComponent() {
-		return new BubbleComponent();
+		return this.comp;
 	}
 
 	@Override
 	public void onPause() {
-		// TODO Auto-generated method stub
-
+		this.comp.pause();
 	}
 
 	@Override
 	public void onResume() {
-		// TODO Auto-generated method stub
+		// does nothing.
 
 	}
 
 	@Override
 	public void onCreate() {
-		// TODO Auto-generated method stub
-
+		// does nothing.
 	}
 
 	@Override
 	public void onDestroy() {
-		// TODO Auto-generated method stub
-
+		// does nothing.
 	}
 
 	@Override
 	public void onStart() {
-		// TODO Auto-generated method stub
-
+		this.comp.resume();
 	}
 
 	@Override
 	public void onRestart() {
-		// TODO Auto-generated method stub
-
+		// does nothing.
 	}
 
 	@Override
 	public void onStop() {
-		// TODO Auto-generated method stub
-
+		// does nothing.
 	}
 
 }

@@ -1,6 +1,7 @@
 import static java.nio.file.StandardWatchEventKinds.ENTRY_CREATE;
 import static java.nio.file.StandardWatchEventKinds.ENTRY_DELETE;
 
+import java.awt.Dimension;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -9,11 +10,19 @@ import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 import java.util.List;
 
+import javax.swing.JFrame;
+
 public class Main {
 
 	public static void main(String[] args) {
+
 		PluggableFrame f = new PluggableFrame();
 		f.setVisible(true);
+
+		// JFrame p = new JFrame();
+		// p.setSize(new Dimension(1000, 1000));
+		// p.add(new BubbleComponent());
+		// p.setVisible(true);
 
 		Path myDir = Paths.get("plugins");
 

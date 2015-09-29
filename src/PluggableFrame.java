@@ -82,6 +82,8 @@ public class PluggableFrame extends javax.swing.JFrame {
 		this.add(p1);
 
 		loadPlugins();
+		// addPlugin(new BubblePanelPlugin());
+		// addPlugin(new JurassicTSwiftPanelPlugin());
 	}
 
 	private void addPlugin(IPanelPlugin plugin) {
@@ -97,8 +99,11 @@ public class PluggableFrame extends javax.swing.JFrame {
 		if (this.currentPluginIndex >= 0) {
 			this.plugins.get(this.currentPluginIndex).onPause();
 		}
+		this.centralPanel.repaint();
 		this.centralPanel.revalidate();
 		this.centralPanel.repaint();
+		this.centralPanel.revalidate();
+
 		this.currentPluginIndex = index;
 	}
 
@@ -128,8 +133,6 @@ public class PluggableFrame extends javax.swing.JFrame {
 			}
 		}
 	}
-
-	// //////////////////////refactor out below///////////////////////
 
 	private void loadPlugins() {
 
