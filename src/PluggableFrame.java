@@ -1,8 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -15,6 +13,8 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import classLoader.JarClassLoader;
 
 public class PluggableFrame extends javax.swing.JFrame {
 
@@ -40,7 +40,7 @@ public class PluggableFrame extends javax.swing.JFrame {
 		JPanel p2 = new JPanel();
 		p2.setPreferredSize(buttonPanelSize);
 		p2.setBackground(Color.black);
-		
+
 		JList<String> namesList = new JList<String>(listModel);
 		namesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		namesList.setLayoutOrientation(JList.VERTICAL);
@@ -84,29 +84,6 @@ public class PluggableFrame extends javax.swing.JFrame {
 		loadPlugins();
 	}
 
-	private void loadPlugins() {
-
-		File f = new File("/plugins");
-		File[] jarsToAdd = f.listFiles();
-
-		for (File jar : jarsToAdd) {
-			if (jar.isFile()) {
-				String name = jar.getName();
-				int i = name.lastIndexOf('.');
-				if (i > 0) {
-					String extension = name.substring(i + 1);
-					if (extension.toLowerCase().equals("jar")) {
-						// addPlugin(new JurassicTSwiftPanelPlugin());
-					}
-				}
-
-			}
-		}
-
-		addPlugin(new JurassicTSwiftPanelPlugin());
-		addPlugin(new BubblePanelPlugin());
-	}
-
 	private void addPlugin(IPanelPlugin plugin) {
 		this.plugins.add(plugin);
 		plugin.onCreate();
@@ -117,9 +94,78 @@ public class PluggableFrame extends javax.swing.JFrame {
 		this.centralPanel.removeAll();
 		this.centralPanel.add(this.plugins.get(index).getComponent());
 		this.plugins.get(index).onStart();
-		this.plugins.get(this.currentPluginIndex).onPause();
+		if (this.currentPluginIndex >= 0) {
+			this.plugins.get(this.currentPluginIndex).onPause();
+		}
 		this.centralPanel.revalidate();
 		this.centralPanel.repaint();
 		this.currentPluginIndex = index;
 	}
+
+	protected void removePlugin(String name) {
+		System.out.println(name);
+		int i = name.lastIndexOf('.');
+		if (i > 0) {
+			String extension = name.substring(i + 1);
+			if (extension.toLowerCase().equals("jar")) {
+				String fileName = name.substring(0, i);
+				for (int j = 0; j < this.plugins.size(); j++) {
+					String className = this.plugins.get(j).getClass()
+							.getSimpleName();
+					if (fileName.equals(className)) {
+						if (this.currentPluginIndex == j) {
+							this.plugins.get(j).onDestroy();
+							this.currentPluginIndex = -1;
+							this.centralPanel.removeAll();
+							this.centralPanel.revalidate();
+							this.centralPanel.repaint();
+						}
+						this.plugins.remove(j);
+						this.listModel.remove(j);
+
+					}
+				}
+			}
+		}
+	}
+
+	// //////////////////////refactor out below///////////////////////
+
+	private void loadPlugins() {
+
+		File f = new File("plugins");
+		File[] jarsToAdd = f.listFiles();
+
+		if (jarsToAdd != null) {
+			for (File jar : jarsToAdd) {
+				loadPlugin(jar);
+			}
+		}
+
+	}
+
+	protected void loadPlugin(File jar) {
+		if (jar.isFile()) {
+			String name = jar.getName();
+			int i = name.lastIndexOf('.');
+			if (i > 0) {
+				String extension = name.substring(i + 1);
+				if (extension.toLowerCase().equals("jar")) {
+
+					try {
+						URL fileUrl = jar.toURI().toURL();
+
+						JarClassLoader jarLoader = new JarClassLoader(fileUrl);
+						Class<?> c = jarLoader.loadClass(name.substring(0, i));
+						Object o = c.newInstance();
+						addPlugin((IPanelPlugin) o);
+					} catch (Exception e) {
+						System.out.println("Error: " + e.toString());
+					}
+				}
+			}
+
+		}
+	}
+
 }
