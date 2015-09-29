@@ -12,14 +12,12 @@ import javax.swing.JComponent;
 public class BubbleComponent extends JComponent {
 
 	private static final long serialVersionUID = -1153376522007633784L;
-	protected static final long REPAINT_INTERVAL_MS = 40;
-	private ArrayList<Bubble> bubbles = new ArrayList<Bubble>();
-	private Thread workThread;
+	private ArrayList<Bubble> bubbles;
 
-	public BubbleComponent() {
+	public BubbleComponent(ArrayList<Bubble> bubbles) {
 		Dimension size = new Dimension(1150, 850);
 		this.setPreferredSize(size);
-		this.setMinimumSize(size);
+		this.bubbles = bubbles;
 
 		this.addMouseListener(new MouseListener() {
 
@@ -49,23 +47,6 @@ public class BubbleComponent extends JComponent {
 			}
 		});
 
-		Runnable repainter = new Runnable() {
-			@Override
-			public void run() {
-				// Periodically asks Java to repaint this component
-				try {
-					while (true) {
-						Thread.sleep(REPAINT_INTERVAL_MS);
-						repaint();
-					}
-				} catch (InterruptedException exception) {
-					// Stop when interrupted
-				}
-			}
-		};
-		this.workThread = new Thread(repainter);
-		this.workThread.start();
-		this.workThread.suspend();
 	}
 
 	public void paintComponent(Graphics g) {
@@ -76,25 +57,8 @@ public class BubbleComponent extends JComponent {
 		g2.fillRect(r.x, r.y, r.width, r.height);
 
 		for (Bubble b : this.bubbles) {
-
-			b.updatePosition();
-
 			g2.setColor(b.getColor());
 			g2.fill(b.getShape());
-
-			if (b.getMinX() < 0 || b.getMaxX() > r.width) {
-				b.bounceOffSideWall();
-			} else if (b.getMinY() < 0 || b.getMaxY() > r.height) {
-				b.bounceOffTopBottomWall();
-			}
 		}
-	}
-
-	protected void pause() {
-		this.workThread.suspend();
-	}
-
-	protected void resume() {
-		this.workThread.resume();
 	}
 }
